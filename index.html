@@ -1,50 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Princessss Universe ❤️</title>
+<title>Princessss' Universe ❤️</title>
 
 <style>
 html, body {
     margin: 0;
     width: 100%;
     height: 100%;
-    background: black;
     overflow: hidden;
+    background: #000;
 }
 
 canvas {
     display: block;
 }
 
-#text {
+#title {
     position: fixed;
     top: 30px;
     width: 100%;
     text-align: center;
     color: white;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     font-size: 24px;
     letter-spacing: 4px;
+    text-shadow: 0 0 10px #ff4fa3, 0 0 25px #ff1493;
+    pointer-events: none;
+    z-index: 2;
+}
+
+#instruction {
+    position: fixed;
+    bottom: 25px;
+    width: 100%;
+    text-align: center;
+    color: rgba(255,255,255,.65);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 2;
 }
 </style>
 </head>
 
 <body>
 
-<div id="text">PRINCESSS' UNIVERSE ❤️</div>
+<div id="title">PRINCESSS' UNIVERSE</div>
+<div id="instruction">Move your mouse • Drag to explore • Scroll to zoom</div>
 
-<canvas id="space"></canvas>
+<canvas id="canvas"></canvas>
 
 <script>
 
-const canvas = document.getElementById("space");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+let width;
+let height;
+
 function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
 }
 
 resize();
@@ -52,46 +71,172 @@ resize();
 window.addEventListener("resize", resize);
 
 
-// Stars
+// ==========================================
+// STAR FIELD
+// ==========================================
 
 const stars = [];
 
-for (let i = 0; i < 500; i++) {
+for (let i = 0; i < 700; i++) {
 
     stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speed: Math.random() * 0.5
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 1.8 + 0.2,
+        speed: Math.random() * 0.4 + 0.05
     });
 
 }
 
 
-// Draw
+// ==========================================
+// PARTICLE HEART
+// ==========================================
 
-function animate() {
+const particles = [];
 
-    ctx.fillStyle = "black";
+const particleCount = 3500;
+
+for (let i = 0; i < particleCount; i++) {
+
+    const t = Math.random() * Math.PI * 2;
+
+    const scale = Math.sqrt(Math.random());
+
+    const heartX =
+        16 * Math.pow(Math.sin(t), 3);
+
+    const heartY =
+        13 * Math.cos(t)
+        - 5 * Math.cos(2 * t)
+        - 2 * Math.cos(3 * t)
+        - Math.cos(4 * t);
+
+    particles.push({
+
+        x: heartX * scale,
+
+        y: heartY * scale,
+
+        z: (Math.random() - 0.5) * 7 * scale,
+
+        size: Math.random() * 1.4 + 0.4,
+
+        phase: Math.random() * Math.PI * 2
+
+    });
+
+}
+
+
+// ==========================================
+// MOUSE
+// ==========================================
+
+let mouseX = 0;
+let mouseY = 0;
+
+let rotationX = 0;
+let rotationY = 0;
+
+window.addEventListener("mousemove", function(e) {
+
+    mouseX =
+        (e.clientX / width - 0.5);
+
+    mouseY =
+        (e.clientY / height - 0.5);
+
+});
+
+
+// ==========================================
+// MOUSE DRAG
+// ==========================================
+
+let dragging = false;
+let previousX = 0;
+let previousY = 0;
+
+canvas.addEventListener("mousedown", function(e) {
+
+    dragging = true;
+
+    previousX = e.clientX;
+    previousY = e.clientY;
+
+});
+
+window.addEventListener("mouseup", function() {
+
+    dragging = false;
+
+});
+
+window.addEventListener("mousemove", function(e) {
+
+    if (!dragging) return;
+
+    const dx = e.clientX - previousX;
+    const dy = e.clientY - previousY;
+
+    rotationY += dx * 0.005;
+    rotationX += dy * 0.005;
+
+    previousX = e.clientX;
+    previousY = e.clientY;
+
+});
+
+
+// ==========================================
+// ZOOM
+// ==========================================
+
+let zoom = 22;
+
+window.addEventListener("wheel", function(e) {
+
+    zoom -= e.deltaY * 0.01;
+
+    zoom = Math.max(
+        12,
+        Math.min(45, zoom)
+    );
+
+});
+
+
+// ==========================================
+// DRAW
+// ==========================================
+
+function animate(time) {
+
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
+
     ctx.fillRect(
         0,
         0,
-        canvas.width,
-        canvas.height
+        width,
+        height
     );
 
 
-    // Stars
+    // -------------------------------
+    // STARS
+    // -------------------------------
 
     for (const star of stars) {
 
         star.y += star.speed;
 
-        if (star.y > canvas.height) {
+        if (star.y > height) {
             star.y = 0;
         }
 
-        ctx.fillStyle = "white";
+        ctx.fillStyle =
+            "rgba(255,255,255,0.8)";
 
         ctx.beginPath();
 
@@ -108,48 +253,118 @@ function animate() {
     }
 
 
-    // Heart
+    // -------------------------------
+    // HEARTBEAT
+    // -------------------------------
 
-    const x = canvas.width / 2;
-    const y = canvas.height / 2;
+    const beat =
+        1 +
+        Math.sin(time * 0.006) * 0.035;
 
-    ctx.save();
 
-    ctx.translate(x, y);
+    // -------------------------------
+    // PARTICLES
+    // -------------------------------
 
-    ctx.scale(10, 10);
+    for (const p of particles) {
 
-    ctx.beginPath();
+        let x = p.x;
+        let y = p.y;
+        let z = p.z;
 
-    ctx.moveTo(0, 3);
 
-    ctx.bezierCurveTo(
-        -5, -2,
-        -8, 2,
-        0, 8
-    );
+        // Rotate around Y
 
-    ctx.bezierCurveTo(
-        8, 2,
-        5, -2,
-        0, 3
-    );
+        let cosY =
+            Math.cos(rotationY);
 
-    ctx.fillStyle = "#ff4fa3";
+        let sinY =
+            Math.sin(rotationY);
 
-    ctx.shadowColor = "#ff1493";
+        let rotatedX =
+            x * cosY - z * sinY;
 
-    ctx.shadowBlur = 25;
+        let rotatedZ =
+            x * sinY + z * cosY;
 
-    ctx.fill();
 
-    ctx.restore();
+        // Rotate around X
+
+        let cosX =
+            Math.cos(rotationX);
+
+        let sinX =
+            Math.sin(rotationX);
+
+        let rotatedY =
+            y * cosX - rotatedZ * sinX;
+
+        rotatedZ =
+            y * sinX + rotatedZ * cosX;
+
+
+        // Heart movement
+
+        rotatedX *= beat;
+        rotatedY *= beat;
+        rotatedZ *= beat;
+
+
+        // Perspective
+
+        const perspective =
+            zoom /
+            (zoom + rotatedZ);
+
+
+        const screenX =
+            width / 2 +
+            rotatedX * perspective * 2;
+
+        const screenY =
+            height / 2 -
+            rotatedY * perspective * 2;
+
+
+        const size =
+            p.size *
+            perspective;
+
+
+        // Glow
+
+        ctx.shadowBlur = 12;
+
+        ctx.shadowColor =
+            "#ff1493";
+
+        ctx.fillStyle =
+            "#ff4fa3";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            screenX,
+            screenY,
+            size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.shadowBlur = 0;
 
 
     requestAnimationFrame(animate);
+
 }
 
-animate();
+requestAnimationFrame(animate);
 
 </script>
 
