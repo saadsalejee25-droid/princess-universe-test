@@ -281,32 +281,42 @@ window.addEventListener("wheel",function(e){
 // PLANET CLICK
 // ================================
 
-canvas.addEventListener("click",function(e){
+canvas.addEventListener("click", function(e) {
 
-    const rect=canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
 
-    const mouseX=e.clientX-rect.left;
-    const mouseY=e.clientY-rect.top;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
 
-    for(const planet of planets){
+    for (const planet of planets) {
 
-        if(!planet.screenX)continue;
+        if (!planet.screenX) continue;
 
-        const dx=mouseX-planet.screenX;
-        const dy=mouseY-planet.screenY;
+        const dx = mouseX - planet.screenX;
+        const dy = mouseY - planet.screenY;
 
-        const distance=Math.sqrt(dx*dx+dy*dy);
+        const distance =
+            Math.sqrt(dx * dx + dy * dy);
 
-        if(distance<planet.size*5){
+        if (distance < planet.size * 5) {
 
-            document.getElementById("popupTitle").textContent=
-                planet.name;
+            if (planet.name === "OUR PICTURES") {
 
-            document.getElementById("popupText").textContent=
-                planet.description;
+                window.location.href = "photos.html";
 
-            document.getElementById("popup").style.display=
-                "block";
+            }
+
+            else if (planet.name === "OUR SONG") {
+
+                window.location.href = "song.html";
+
+            }
+
+            else if (planet.name === "MY LETTER") {
+
+                window.location.href = "letter.html";
+
+            }
 
             break;
         }
