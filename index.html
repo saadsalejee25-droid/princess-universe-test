@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Princessss Universe ❤️</title>
+<title>Princessss' Universe ❤️</title>
 
 <style>
-
 html, body {
     margin: 0;
     width: 100%;
@@ -25,30 +24,37 @@ canvas {
     top: 30px;
     width: 100%;
     text-align: center;
-
     color: white;
-
-    font-family: Arial;
-
+    font-family: Arial, sans-serif;
     font-size: 24px;
-
     letter-spacing: 4px;
-
     text-shadow:
         0 0 10px #ff4fa3,
         0 0 25px #ff1493;
-
     pointer-events: none;
+    z-index: 2;
 }
 
+#instruction {
+    position: fixed;
+    bottom: 25px;
+    width: 100%;
+    text-align: center;
+    color: rgba(255,255,255,0.65);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 2;
+}
 </style>
-
 </head>
 
 <body>
 
-<div id="title">
-PRINCESSS' UNIVERSE ❤️
+<div id="title">PRINCESSS' UNIVERSE ❤️</div>
+
+<div id="instruction">
+Drag to explore • Scroll to zoom
 </div>
 
 <canvas id="canvas"></canvas>
@@ -56,10 +62,10 @@ PRINCESSS' UNIVERSE ❤️
 <script>
 
 const canvas =
-document.getElementById("canvas");
+    document.getElementById("canvas");
 
 const ctx =
-canvas.getContext("2d");
+    canvas.getContext("2d");
 
 let width;
 let height;
@@ -84,52 +90,51 @@ window.addEventListener(
 );
 
 
-// ====================================
-// STARS
-// ====================================
+// ======================================
+// STAR FIELD
+// ======================================
 
 const stars = [];
 
-for (
-    let i = 0;
-    i < 1000;
-    i++
-) {
+const STAR_COUNT = 450;
+
+for (let i = 0; i < STAR_COUNT; i++) {
 
     stars.push({
 
-        x:
-            (Math.random() - 0.5)
-            * 1000,
+        x: Math.random() * width,
 
-        y:
-            (Math.random() - 0.5)
-            * 1000,
+        y: Math.random() * height,
 
-        z:
-            Math.random() * 1000
+        size:
+            Math.random() * 1.4 + 0.3,
+
+        speed:
+            Math.random() * 0.25 + 0.05
 
     });
 
 }
 
 
-// ====================================
+// ======================================
 // HEART PARTICLES
-// ====================================
+// ======================================
 
 const heart = [];
 
+const PARTICLE_COUNT = 2600;
+
 for (
     let i = 0;
-    i < 5000;
+    i < PARTICLE_COUNT;
     i++
 ) {
 
     const t =
-        Math.random()
-        * Math.PI
-        * 2;
+        Math.random() *
+        Math.PI *
+        2;
 
     const scale =
         Math.sqrt(
@@ -159,7 +164,6 @@ for (
 
         ) * scale;
 
-
     heart.push({
 
         x: x,
@@ -168,32 +172,35 @@ for (
 
         z:
             (Math.random() - 0.5)
-            * 10,
+            * 8,
 
         size:
-            Math.random()
-            * 1.5
-            + 0.3
+            Math.random() * 1.3
+            + 0.35
 
     });
 
 }
 
 
-// ====================================
+// ======================================
 // CAMERA
-// ====================================
+// ======================================
 
 let cameraZ = 250;
 
 
-// ====================================
+// ======================================
 // ROTATION
-// ====================================
+// ======================================
 
 let rotationX = 0;
 
 let rotationY = 0;
+
+let targetRotationX = 0;
+
+let targetRotationY = 0;
 
 let dragging = false;
 
@@ -202,9 +209,9 @@ let lastX = 0;
 let lastY = 0;
 
 
-// ====================================
+// ======================================
 // MOUSE DOWN
-// ====================================
+// ======================================
 
 canvas.addEventListener(
     "mousedown",
@@ -222,9 +229,9 @@ canvas.addEventListener(
 );
 
 
-// ====================================
+// ======================================
 // MOUSE UP
-// ====================================
+// ======================================
 
 window.addEventListener(
     "mouseup",
@@ -236,9 +243,9 @@ window.addEventListener(
 );
 
 
-// ====================================
+// ======================================
 // MOUSE MOVE
-// ====================================
+// ======================================
 
 window.addEventListener(
     "mousemove",
@@ -247,28 +254,20 @@ window.addEventListener(
         if (!dragging)
             return;
 
-
         const dx =
-            e.clientX -
-            lastX;
-
+            e.clientX - lastX;
 
         const dy =
-            e.clientY -
-            lastY;
+            e.clientY - lastY;
 
+        targetRotationY +=
+            dx * 0.008;
 
-        rotationY +=
-            dx * 0.01;
-
-
-        rotationX +=
-            dy * 0.01;
-
+        targetRotationX +=
+            dy * 0.008;
 
         lastX =
             e.clientX;
-
 
         lastY =
             e.clientY;
@@ -277,40 +276,61 @@ window.addEventListener(
 );
 
 
-// ====================================
+// ======================================
 // ZOOM
-// ====================================
+// ======================================
 
 window.addEventListener(
     "wheel",
     function(e) {
 
         cameraZ +=
-            e.deltaY
-            * 0.3;
-
+            e.deltaY * 0.25;
 
         cameraZ =
             Math.max(
-                100,
+                120,
                 Math.min(
-                    600,
+                    500,
                     cameraZ
                 )
             );
 
-    }
+    },
+    { passive: true }
 );
 
 
-// ====================================
+// ======================================
 // DRAW
-// ====================================
+// ======================================
 
 function animate(time) {
 
+    requestAnimationFrame(
+        animate
+    );
+
+
+    // Smooth rotation
+
+    rotationX +=
+        (
+            targetRotationX -
+            rotationX
+        ) * 0.12;
+
+    rotationY +=
+        (
+            targetRotationY -
+            rotationY
+        ) * 0.12;
+
+
+    // Clear screen
+
     ctx.fillStyle =
-        "rgba(0,0,0,0.4)";
+        "rgba(0,0,0,0.45)";
 
     ctx.fillRect(
         0,
@@ -320,170 +340,132 @@ function animate(time) {
     );
 
 
-    // ================================
+    // ==================================
     // STARS
-    // ================================
+    // ==================================
+
+    ctx.fillStyle =
+        "white";
 
     for (
         const star of stars
     ) {
 
+        star.y +=
+            star.speed;
 
-        star.z -= 1;
+        if (
+            star.y >
+            height
+        ) {
 
-
-        if (star.z < 1) {
-
-            star.z =
-                1000;
+            star.y = 0;
 
         }
 
-
-        const scale =
-            400 /
-            star.z;
-
-
-        const x =
-            width / 2
-            +
-            star.x
-            * scale;
-
-
-        const y =
-            height / 2
-            +
-            star.y
-            * scale;
-
-
-        const size =
-            scale * 2;
-
-
-        ctx.fillStyle =
-            "white";
-
-
         ctx.beginPath();
 
-
         ctx.arc(
-            x,
-            y,
-            size,
+            star.x,
+            star.y,
+            star.size,
             0,
             Math.PI * 2
         );
-
 
         ctx.fill();
 
     }
 
 
-    // ================================
-    // HEART
-    // ================================
+    // ==================================
+    // HEARTBEAT
+    // ==================================
 
-    const heartbeat =
+    const beat =
         1 +
         Math.sin(
             time * 0.006
-        )
-        * 0.04;
+        ) * 0.035;
+
+
+    // ==================================
+    // PRE-CALCULATED ROTATION
+    // ==================================
+
+    const cosY =
+        Math.cos(
+            rotationY
+        );
+
+    const sinY =
+        Math.sin(
+            rotationY
+        );
+
+    const cosX =
+        Math.cos(
+            rotationX
+        );
+
+    const sinX =
+        Math.sin(
+            rotationX
+        );
+
+
+    // ==================================
+    // HEART
+    // ==================================
+
+    ctx.shadowBlur = 8;
+
+    ctx.shadowColor =
+        "#ff1493";
+
+    ctx.fillStyle =
+        "#ff4fa3";
 
 
     for (
         const p of heart
     ) {
 
+        // Y rotation
 
         let x =
-            p.x;
-
-        let y =
-            p.y;
+            p.x * cosY -
+            p.z * sinY;
 
         let z =
-            p.z;
+            p.x * sinY +
+            p.z * cosY;
 
 
-        // rotate Y
+        // X rotation
 
-        const cosY =
-            Math.cos(
-                rotationY
-            );
-
-        const sinY =
-            Math.sin(
-                rotationY
-            );
-
-
-        const newX =
-            x * cosY -
-            z * sinY;
-
-
-        const newZ =
-            x * sinY +
-            z * cosY;
-
-
-        x =
-            newX;
-
-        z =
-            newZ;
-
-
-        // rotate X
-
-        const cosX =
-            Math.cos(
-                rotationX
-            );
-
-        const sinX =
-            Math.sin(
-                rotationX
-            );
-
-
-        const newY =
-            y * cosX -
+        let y =
+            p.y * cosX -
             z * sinX;
 
-
         z =
-            y * sinX +
+            p.y * sinX +
             z * cosX;
 
 
-        y =
-            newY;
+        // Heartbeat
+
+        x *= beat;
+
+        y *= beat;
 
 
-        // heartbeat
-
-        x *=
-            heartbeat;
-
-        y *=
-            heartbeat;
-
-
-        // camera
+        // Perspective
 
         const depth =
             cameraZ /
             (
-                cameraZ -
-                z
+                cameraZ - z
             );
 
 
@@ -504,21 +486,7 @@ function animate(time) {
             depth;
 
 
-        // glow
-
-        ctx.shadowBlur =
-            12;
-
-        ctx.shadowColor =
-            "#ff1493";
-
-
-        ctx.fillStyle =
-            "#ff4fa3";
-
-
         ctx.beginPath();
-
 
         ctx.arc(
             screenX,
@@ -528,7 +496,6 @@ function animate(time) {
             Math.PI * 2
         );
 
-
         ctx.fill();
 
     }
@@ -536,13 +503,10 @@ function animate(time) {
 
     ctx.shadowBlur = 0;
 
-
-    requestAnimationFrame(
-        animate
-    );
-
 }
 
+
+// Start
 
 requestAnimationFrame(
     animate
