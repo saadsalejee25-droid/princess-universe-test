@@ -1,370 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Princessss' Universe ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Test 🌌</title>
 
-<style>
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-}
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: black;
+        }
 
-canvas {
-    display: block;
-}
+        canvas {
+            display: block;
+        }
 
-#title {
-    position: fixed;
-    top: 30px;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-    letter-spacing: 4px;
-    text-shadow: 0 0 10px #ff4fa3, 0 0 25px #ff1493;
-    pointer-events: none;
-    z-index: 2;
-}
-
-#instruction {
-    position: fixed;
-    bottom: 25px;
-    width: 100%;
-    text-align: center;
-    color: rgba(255,255,255,.65);
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    pointer-events: none;
-    z-index: 2;
-}
-</style>
+        #message {
+            position: fixed;
+            top: 30px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 22px;
+            z-index: 10;
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="title">PRINCESSS' UNIVERSE</div>
-<div id="instruction">Move your mouse • Drag to explore • Scroll to zoom</div>
+<div id="message">DRAG + SCROLL 🌌</div>
 
-<canvas id="canvas"></canvas>
+<script type="module">
 
-<script>
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
-let width;
-let height;
-
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-}
-
-resize();
-
-window.addEventListener("resize", resize);
+import { OrbitControls } from
+"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
 
-// ==========================================
-// STAR FIELD
-// ==========================================
+// SCENE
 
-const stars = [];
+const scene = new THREE.Scene();
 
-for (let i = 0; i < 700; i++) {
-
-    stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 1.8 + 0.2,
-        speed: Math.random() * 0.4 + 0.05
-    });
-
-}
+scene.background =
+    new THREE.Color(0x000000);
 
 
-// ==========================================
-// PARTICLE HEART
-// ==========================================
+// CAMERA
 
-const particles = [];
-
-const particleCount = 3500;
-
-for (let i = 0; i < particleCount; i++) {
-
-    const t = Math.random() * Math.PI * 2;
-
-    const scale = Math.sqrt(Math.random());
-
-    const heartX =
-        16 * Math.pow(Math.sin(t), 3);
-
-    const heartY =
-        13 * Math.cos(t)
-        - 5 * Math.cos(2 * t)
-        - 2 * Math.cos(3 * t)
-        - Math.cos(4 * t);
-
-    particles.push({
-
-        x: heartX * scale,
-
-        y: heartY * scale,
-
-        z: (Math.random() - 0.5) * 7 * scale,
-
-        size: Math.random() * 1.4 + 0.4,
-
-        phase: Math.random() * Math.PI * 2
-
-    });
-
-}
-
-
-// ==========================================
-// MOUSE
-// ==========================================
-
-let mouseX = 0;
-let mouseY = 0;
-
-let rotationX = 0;
-let rotationY = 0;
-
-window.addEventListener("mousemove", function(e) {
-
-    mouseX =
-        (e.clientX / width - 0.5);
-
-    mouseY =
-        (e.clientY / height - 0.5);
-
-});
-
-
-// ==========================================
-// MOUSE DRAG
-// ==========================================
-
-let dragging = false;
-let previousX = 0;
-let previousY = 0;
-
-canvas.addEventListener("mousedown", function(e) {
-
-    dragging = true;
-
-    previousX = e.clientX;
-    previousY = e.clientY;
-
-});
-
-window.addEventListener("mouseup", function() {
-
-    dragging = false;
-
-});
-
-window.addEventListener("mousemove", function(e) {
-
-    if (!dragging) return;
-
-    const dx = e.clientX - previousX;
-    const dy = e.clientY - previousY;
-
-    rotationY += dx * 0.005;
-    rotationX += dy * 0.005;
-
-    previousX = e.clientX;
-    previousY = e.clientY;
-
-});
-
-
-// ==========================================
-// ZOOM
-// ==========================================
-
-let zoom = 22;
-
-window.addEventListener("wheel", function(e) {
-
-    zoom -= e.deltaY * 0.01;
-
-    zoom = Math.max(
-        12,
-        Math.min(45, zoom)
+const camera =
+    new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth /
+        window.innerHeight,
+        0.1,
+        1000
     );
 
-});
+camera.position.set(
+    0,
+    0,
+    10
+);
 
 
-// ==========================================
-// DRAW
-// ==========================================
+// RENDERER
 
-function animate(time) {
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias: true
+    });
 
-    ctx.fillStyle = "rgba(0,0,0,0.35)";
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
 
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        height
+renderer.setPixelRatio(
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
+);
+
+document.body.appendChild(
+    renderer.domElement
+);
+
+
+// CONTROLS
+
+const controls =
+    new OrbitControls(
+        camera,
+        renderer.domElement
     );
 
+controls.enableDamping = true;
 
-    // -------------------------------
-    // STARS
-    // -------------------------------
+controls.dampingFactor = 0.05;
 
-    for (const star of stars) {
+controls.enableZoom = true;
 
-        star.y += star.speed;
-
-        if (star.y > height) {
-            star.y = 0;
-        }
-
-        ctx.fillStyle =
-            "rgba(255,255,255,0.8)";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            star.x,
-            star.y,
-            star.size,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-    }
+controls.enableRotate = true;
 
 
-    // -------------------------------
-    // HEARTBEAT
-    // -------------------------------
+// TEST OBJECT
 
-    const beat =
-        1 +
-        Math.sin(time * 0.006) * 0.035;
+const geometry =
+    new THREE.SphereGeometry(
+        2,
+        32,
+        32
+    );
 
+const material =
+    new THREE.MeshBasicMaterial({
+        color: 0xff4fa3,
+        wireframe: true
+    });
 
-    // -------------------------------
-    // PARTICLES
-    // -------------------------------
+const sphere =
+    new THREE.Mesh(
+        geometry,
+        material
+    );
 
-    for (const p of particles) {
-
-        let x = p.x;
-        let y = p.y;
-        let z = p.z;
-
-
-        // Rotate around Y
-
-        let cosY =
-            Math.cos(rotationY);
-
-        let sinY =
-            Math.sin(rotationY);
-
-        let rotatedX =
-            x * cosY - z * sinY;
-
-        let rotatedZ =
-            x * sinY + z * cosY;
+scene.add(sphere);
 
 
-        // Rotate around X
+// ANIMATION
 
-        let cosX =
-            Math.cos(rotationX);
+function animate() {
 
-        let sinX =
-            Math.sin(rotationX);
+    requestAnimationFrame(
+        animate
+    );
 
-        let rotatedY =
-            y * cosX - rotatedZ * sinX;
+    controls.update();
 
-        rotatedZ =
-            y * sinX + rotatedZ * cosX;
-
-
-        // Heart movement
-
-        rotatedX *= beat;
-        rotatedY *= beat;
-        rotatedZ *= beat;
-
-
-        // Perspective
-
-        const perspective =
-            zoom /
-            (zoom + rotatedZ);
-
-
-        const screenX =
-            width / 2 +
-            rotatedX * perspective * 2;
-
-        const screenY =
-            height / 2 -
-            rotatedY * perspective * 2;
-
-
-        const size =
-            p.size *
-            perspective;
-
-
-        // Glow
-
-        ctx.shadowBlur = 12;
-
-        ctx.shadowColor =
-            "#ff1493";
-
-        ctx.fillStyle =
-            "#ff4fa3";
-
-
-        ctx.beginPath();
-
-        ctx.arc(
-            screenX,
-            screenY,
-            size,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-    }
-
-
-    ctx.shadowBlur = 0;
-
-
-    requestAnimationFrame(animate);
-
+    renderer.render(
+        scene,
+        camera
+    );
 }
 
-requestAnimationFrame(animate);
+animate();
+
+
+// RESIZE
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+    }
+);
 
 </script>
 
