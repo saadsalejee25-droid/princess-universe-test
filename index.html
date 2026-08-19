@@ -75,11 +75,291 @@ canvas{
     color:white;
     cursor:pointer;
 }
+    /* =========================
+   BIRTHDAY INTRO
+========================= */
+
+#birthdayIntro {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #26001f 0%,
+            #090006 55%,
+            #000000 100%
+        );
+
+    transition:
+        opacity 1.5s ease,
+        visibility 1.5s ease;
+
+}
+
+
+/* CONTENT */
+
+.introContent {
+
+    width: 90%;
+
+    max-width: 700px;
+
+    animation:
+        introAppear 2s ease;
+}
+
+
+@keyframes introAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(30px)
+            scale(.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* SMALL TEXT */
+
+.introSmall {
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .55
+        );
+
+    font-size: 13px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 25px;
+}
+
+
+/* TITLE */
+
+.introContent h1 {
+
+    font-size:
+        clamp(
+            40px,
+            8vw,
+            75px
+        );
+
+    line-height: 1.1;
+
+    margin: 0;
+
+    color: white;
+
+    text-shadow:
+        0 0 20px
+        rgba(
+            255,
+            20,
+            147,
+            .7
+        );
+}
+
+
+.introContent h1 span {
+
+    display: block;
+
+    color:
+        #ff6bb5;
+
+    margin-top: 10px;
+
+}
+
+
+/* DESCRIPTION */
+
+.introContent p {
+
+    margin-top: 30px;
+
+    margin-bottom: 40px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .65
+        );
+
+    font-size: 18px;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+}
+
+
+/* ENTER BUTTON */
+
+#enterUniverse {
+
+    padding:
+        16px
+        34px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            120,
+            190,
+            .7
+        );
+
+    border-radius:
+        50px;
+
+    background:
+        rgba(
+            255,
+            40,
+            150,
+            .12
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            255,
+            20,
+            147,
+            .25
+        );
+
+    transition:
+        transform .3s,
+        box-shadow .3s,
+        background .3s;
+
+}
+
+
+#enterUniverse:hover {
+
+    transform:
+        scale(1.07);
+
+    background:
+        rgba(
+            255,
+            40,
+            150,
+            .25
+        );
+
+    box-shadow:
+        0 0 45px
+        rgba(
+            255,
+            20,
+            147,
+            .55
+        );
+
+}
+
+
+/* HIDDEN STATE */
+
+#birthdayIntro.hide {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+}
 </style>
 </head>
 
 <body>
 
+    <!-- BIRTHDAY INTRO -->
+
+<div id="birthdayIntro">
+
+    <div class="introStars"></div>
+
+    <div class="introContent">
+
+        <div class="introSmall">
+            ✨ A LITTLE UNIVERSE MADE FOR YOU ✨
+        </div>
+
+        <h1>
+            Happy Birthday,
+            <span>Princessss ❤️</span>
+        </h1>
+
+        <p>
+            I made something special for you...
+        </p>
+
+        <button
+            id="enterUniverse"
+            onclick="enterUniverse()"
+        >
+            ENTER YOUR UNIVERSE ✨
+        </button>
+
+    </div>
+
+</div>
 <div id="title">PRINCESSS' UNIVERSE ❤️</div>
 
 <div id="hint">
@@ -661,6 +941,16 @@ function animate(time){
 
 requestAnimationFrame(animate);
 
+    function enterUniverse(){
+
+    const intro =
+        document.getElementById(
+            "birthdayIntro"
+        );
+
+    intro.classList.add("hide");
+
+}
 </script>
 
 </body>
