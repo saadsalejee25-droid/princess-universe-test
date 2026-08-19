@@ -324,6 +324,29 @@ canvas{
     pointer-events: none;
 
 }
+    /* CINEMATIC UNIVERSE ENTRANCE */
+
+.universeEntering canvas {
+
+    opacity: 0;
+
+    transform: scale(0.85);
+
+    transition:
+        opacity 2.5s ease,
+        transform 2.5s ease;
+}
+
+body:not(.universeEntering) canvas {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
 </style>
 </head>
 
@@ -941,7 +964,7 @@ function animate(time){
 
 requestAnimationFrame(animate);
 
-    function enterUniverse(){
+   function enterUniverse(){
 
     const intro =
         document.getElementById(
@@ -949,6 +972,18 @@ requestAnimationFrame(animate);
         );
 
     intro.classList.add("hide");
+
+    document.body.classList.add(
+        "universeEntering"
+    );
+
+    setTimeout(() => {
+
+        document.body.classList.remove(
+            "universeEntering"
+        );
+
+    }, 2800);
 
 }
 </script>
