@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>A Song For My Princessss ❤️</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #28001f,
+            #080006 55%,
+            #000
+        );
+
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    overflow: hidden;
+}
+
+
+/* FLOATING STARS */
+
+.star {
+
+    position: fixed;
+
+    width: 3px;
+
+    height: 3px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    opacity: .7;
+
+    animation:
+        float 5s infinite ease-in-out;
+}
+
+@keyframes float {
+
+    0%,100% {
+        transform: translateY(0);
+        opacity: .3;
+    }
+
+    50% {
+        transform: translateY(-30px);
+        opacity: 1;
+    }
+}
+
+
+/* CARD */
+
+.card {
+
+    width: min(600px, 88vw);
+
+    padding: 55px 35px;
+
+    text-align: center;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            79,
+            163,
+            .35
+        );
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 0 70px
+        rgba(
+            255,
+            20,
+            147,
+            .15
+        );
+
+    backdrop-filter:
+        blur(10px);
+}
+
+
+/* MUSIC ICON */
+
+.music {
+
+    font-size: 65px;
+
+    margin-bottom: 20px;
+
+    animation:
+        pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+
+/* TITLE */
+
+h1 {
+
+    font-size: 32px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 20px;
+
+    text-shadow:
+        0 0 15px #ff4fa3;
+}
+
+
+/* MESSAGE */
+
+.message {
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .72
+        );
+
+    line-height: 1.8;
+
+    font-size: 16px;
+
+    margin-bottom: 35px;
+}
+
+
+/* BUTTON */
+
+.play {
+
+    display: inline-block;
+
+    padding:
+        14px
+        32px;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4fa3,
+            #ff1493
+        );
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            255,
+            20,
+            147,
+            .4
+        );
+
+    transition: .3s;
+}
+
+.play:hover {
+
+    transform:
+        scale(1.06);
+
+    box-shadow:
+        0 0 40px
+        rgba(
+            255,
+            20,
+            147,
+            .7
+        );
+}
+
+
+/* BACK */
+
+.back {
+
+    display: block;
+
+    margin-top: 30px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .5
+        );
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.back:hover {
+
+    color: white;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- STARS -->
+
+<div class="star"
+style="top:10%;left:15%;"></div>
+
+<div class="star"
+style="top:25%;left:80%;"></div>
+
+<div class="star"
+style="top:70%;left:12%;"></div>
+
+<div class="star"
+style="top:82%;left:85%;"></div>
+
+<div class="star"
+style="top:45%;left:92%;"></div>
+
+<div class="star"
+style="top:15%;left:55%;"></div>
+
+
+<!-- CARD -->
+
+<div class="card">
+
+
+    <div class="music">
+        🎵
+    </div>
+
+
+    <h1>
+        A Song That Reminds Me Of You
+    </h1>
+
+
+    <div class="message">
+
+        Some songs sound good...
+
+        <br><br>
+
+        And some songs somehow
+        remind you of a person.
+
+        <br><br>
+
+        This one reminds me of
+        <strong>you, Princessss ❤️</strong>
+
+    </div>
+
+
+    <!-- REPLACE THIS LINK LATER -->
+
+    <a
+        class="play"
+        href="https://www.youtube.com/"
+        target="_blank"
+    >
+        ▶ PLAY OUR SONG
+    </a>
+
+
+    <a
+        class="back"
+        href="index.html"
+    >
+        ← Back to Our Universe
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>
