@@ -410,6 +410,145 @@ body:not(.universeEntering) canvas {
         rgba(255,255,255,0.15);
 
 }
+    /* =========================
+   SECRET PLANET
+========================= */
+
+#secretPlanet {
+
+    display: none;
+
+    position: fixed;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.4);
+
+    z-index: 2000;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    animation:
+        secretPlanetAppear
+        1.5s ease forwards;
+}
+
+
+@keyframes secretPlanetAppear {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.4);
+
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+    }
+
+}
+
+
+.secretPlanetGlow {
+
+    width: 150px;
+
+    height: 150px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 55px;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff,
+            #ff75c8 20%,
+            #8a2be2 55%,
+            #15001f 100%
+        );
+
+    box-shadow:
+
+        0 0 25px
+        rgba(255,100,210,.8),
+
+        0 0 60px
+        rgba(150,50,255,.5),
+
+        0 0 110px
+        rgba(255,50,180,.3);
+
+    animation:
+        secretPlanetFloat
+        3s ease-in-out
+        infinite;
+
+}
+
+
+@keyframes secretPlanetFloat {
+
+    0%,100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-12px);
+
+    }
+
+}
+
+
+.secretPlanetText {
+
+    margin-top: 18px;
+
+    color: white;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 15px
+        rgba(255,100,220,.9);
+
+}
 </style>
 </head>
 
@@ -465,6 +604,17 @@ Drag to explore • Scroll to zoom • Click a planet
 
     ⭐ STARS FOUND:
     <span id="starsFound">0</span>/5
+
+</div>
+    <div id="secretPlanet">
+
+    <div class="secretPlanetGlow">
+        🔐
+    </div>
+
+    <div class="secretPlanetText">
+        THE SECRET
+    </div>
 
 </div>
 
@@ -1131,10 +1281,37 @@ function checkHiddenStar(x, y) {
 
                 setTimeout(() => {
 
-                    alert(
-                        "⭐ 5/5 STARS FOUND! ⭐\n\n" +
-                        "You found them all, Princessss... ❤️"
-                    );
+                    const secretPlanet =
+    document.getElementById("secretPlanet");
+
+if(secretPlanet){
+
+    secretPlanet.style.display =
+        "block";
+
+    setTimeout(() => {
+
+        alert(
+            "⭐ 5/5 STARS FOUND! ⭐\n\n" +
+            "You found them all, Princessss... ❤️\n\n" +
+            "Something new has appeared..."
+        );
+
+    }, 500);
+
+}
+                    secretPlanet.addEventListener(
+    "click",
+    function(){
+
+        alert(
+            "🔐 THE SECRET 🔐\n\n" +
+            "You really found me, Princessss... 👀❤️\n\n" +
+            "Okay... you earned this."
+        );
+
+    }
+);
 
                 }, 400);
             }
