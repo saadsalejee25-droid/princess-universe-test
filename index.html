@@ -475,111 +475,184 @@ function animate(time){
     // PLANETS
     // ============================
 
-    for(const planet of planets){
+   for(const planet of planets){
 
-        planet.angle+=0.0015;
+    planet.angle += 0.0015;
 
+    const px = Math.cos(planet.angle) * planet.distance;
+    const py = Math.sin(planet.angle) * planet.distance;
 
-        const px=
-            Math.cos(planet.angle)*
-            planet.distance;
+    let x = px * cosY;
+    let z = px * sinY;
 
-        const py=
-            Math.sin(planet.angle)*
-            planet.distance;
+    let y = py * cosX - z * sinX;
 
+    z = py * sinX + z * cosX;
 
-        let x=
-            px*cosY;
+    const depth = cameraZ / (cameraZ - z);
 
-        let z=
-            px*sinY;
+    const screenX = width / 2 + x * 7 * depth;
+    const screenY = height / 2 - y * 7 * depth;
+    const size = planet.size * depth;
 
-        let y=
-            py*cosX-
-            z*sinX;
-
-        z=
-            py*sinX+
-            z*cosX;
+    planet.screenX = screenX;
+    planet.screenY = screenY;
 
 
-        const depth=
-            cameraZ/
-            (cameraZ-z);
+    // ORBIT
+
+    ctx.strokeStyle = "rgba(255,255,255,0.10)";
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        width / 2,
+        height / 2,
+        planet.distance * 7,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.stroke();
 
 
-        const screenX=
-            width/2+
-            x*7*depth;
+    // PLANET GLOW
 
-        const screenY=
-            height/2-
-            y*7*depth;
-
-        const size=
-            planet.size*depth;
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = planet.color;
 
 
-        planet.screenX=screenX;
-        planet.screenY=screenY;
+    // PLANET
+
+    const gradient = ctx.createRadialGradient(
+        screenX - size * 0.35,
+        screenY - size * 0.35,
+        size * 0.1,
+        screenX,
+        screenY,
+        size
+    );
+
+    gradient.addColorStop(0, "#ffffff");
+    gradient.addColorStop(0.15, planet.color);
+    gradient.addColorStop(0.65, planet.color);
+    gradient.addColorStop(1, "#16000f");
+
+    ctx.fillStyle = gradient;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        screenX,
+        screenY,
+        size,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
 
 
-        // Orbit
+    // RING AROUND OUR PICTURES
 
-        ctx.strokeStyle=
-            "rgba(255,255,255,0.08)";
+    if(planet.name === "OUR PICTURES"){
+
+        ctx.save();
+
+        ctx.translate(
+            screenX,
+            screenY
+        );
+
+        ctx.rotate(-0.25);
+
+        ctx.strokeStyle =
+            "rgba(255,180,220,0.8)";
+
+        ctx.lineWidth =
+            Math.max(1, size * 0.12);
 
         ctx.beginPath();
 
-        ctx.arc(
-            width/2,
-            height/2,
-            planet.distance*7,
+        ctx.ellipse(
             0,
-            Math.PI*2
+            0,
+            size * 1.8,
+            size * 0.45,
+            0,
+            0,
+            Math.PI * 2
         );
 
         ctx.stroke();
 
+        ctx.restore();
+    }
 
-        // Planet
 
-        ctx.shadowBlur=20;
-        ctx.shadowColor=planet.color;
+    // MOON AROUND MY LETTER
 
-        ctx.fillStyle=planet.color;
+    if(planet.name === "MY LETTER"){
+
+        const moonAngle =
+            time * 0.0015;
+
+        const moonDistance =
+            size * 1.8;
+
+        const moonX =
+            screenX +
+            Math.cos(moonAngle) *
+            moonDistance;
+
+        const moonY =
+            screenY +
+            Math.sin(moonAngle) *
+            moonDistance *
+            0.5;
+
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#ffffff";
+
+        ctx.fillStyle = "#ffffff";
 
         ctx.beginPath();
 
         ctx.arc(
-            screenX,
-            screenY,
-            size,
+            moonX,
+            moonY,
+            Math.max(1.5, size * 0.22),
             0,
-            Math.PI*2
+            Math.PI * 2
         );
 
         ctx.fill();
-
-
-        // Label
-
-        ctx.shadowBlur=0;
-
-        ctx.fillStyle="white";
-
-        ctx.font="12px Arial";
-
-        ctx.textAlign="center";
-
-        ctx.fillText(
-            planet.name,
-            screenX,
-            screenY+size+18
-        );
-
     }
+
+
+    // PLANET LABEL
+
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle =
+        "rgba(255,255,255,0.9)";
+
+    ctx.font =
+        "bold 12px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillText(
+        planet.name,
+        screenX,
+        screenY + size + 20
+    );
+
+}
+
+
 
 
     ctx.shadowBlur=0;
