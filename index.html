@@ -347,6 +347,69 @@ body:not(.universeEntering) canvas {
         opacity 1s ease,
         transform 1s ease;
 }
+    /* =========================
+   HIDDEN STAR COUNTER
+========================= */
+
+#starCounter {
+
+    position: fixed;
+
+    top: 25px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 1000;
+
+    padding: 10px 20px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(0,0,0,0.35);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.2);
+
+    color: white;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+
+    backdrop-filter:
+        blur(8px);
+
+    box-shadow:
+        0 0 20px
+        rgba(255,255,255,0.08);
+
+    opacity: 0.8;
+
+    transition:
+        transform .3s,
+        box-shadow .3s;
+
+}
+
+#starCounter:hover {
+
+    transform:
+        translateX(-50%)
+        scale(1.05);
+
+    box-shadow:
+        0 0 25px
+        rgba(255,255,255,0.15);
+
+}
 </style>
 </head>
 
@@ -396,6 +459,14 @@ Drag to explore • Scroll to zoom • Click a planet
 </div>
 
 <canvas id="canvas"></canvas>
+    <!-- HIDDEN STAR COUNTER -->
+
+<div id="starCounter">
+
+    ⭐ STARS FOUND:
+    <span id="starsFound">0</span>/5
+
+</div>
 
 <script>
 
@@ -986,6 +1057,114 @@ requestAnimationFrame(animate);
     }, 2800);
 
 }
+    // =========================
+// HIDDEN STAR HUNT
+// =========================
+
+const hiddenStars = [
+
+    { x: 0.18, y: 0.25, found: false },
+    { x: 0.78, y: 0.20, found: false },
+    { x: 0.30, y: 0.75, found: false },
+    { x: 0.72, y: 0.72, found: false },
+    { x: 0.50, y: 0.12, found: false }
+
+];
+
+function drawHiddenStars() {
+
+    for (const star of hiddenStars) {
+
+        if (star.found) continue;
+
+        const x = canvas.width * star.x;
+        const y = canvas.height * star.y;
+
+        ctx.save();
+
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = "#ffffff";
+
+        ctx.fillStyle = "white";
+
+        ctx.font = "18px Arial";
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        ctx.fillText("✦", x, y);
+
+        ctx.restore();
+    }
+}
+
+
+function checkHiddenStar(x, y) {
+
+    for (const star of hiddenStars) {
+
+        if (star.found) continue;
+
+        const starX = canvas.width * star.x;
+        const starY = canvas.height * star.y;
+
+        const distance = Math.sqrt(
+            (x - starX) * (x - starX) +
+            (y - starY) * (y - starY)
+        );
+
+        if (distance < 35) {
+
+            star.found = true;
+
+            const total =
+                hiddenStars.filter(
+                    s => s.found
+                ).length;
+
+            document.getElementById(
+                "starsFound"
+            ).textContent = total;
+
+            if (total === 5) {
+
+                setTimeout(() => {
+
+                    alert(
+                        "⭐ 5/5 STARS FOUND! ⭐\n\n" +
+                        "You found them all, Princessss... ❤️"
+                    );
+
+                }, 400);
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+canvas.addEventListener(
+    "click",
+    function(e) {
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        const x =
+            (e.clientX - rect.left) *
+            (canvas.width / rect.width);
+
+        const y =
+            (e.clientY - rect.top) *
+            (canvas.height / rect.height);
+
+        checkHiddenStar(x, y);
+
+    }
+);
 </script>
 
 </body>
