@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>For My Princessss ❤️</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #260019,
+            #070006 60%,
+            #000
+        );
+
+    color: white;
+
+    font-family:
+        Georgia,
+        serif;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px 20px;
+
+    overflow-x: hidden;
+}
+
+
+/* FLOATING HEARTS */
+
+.heart {
+
+    position: fixed;
+
+    color: #ff4fa3;
+
+    font-size: 18px;
+
+    opacity: .5;
+
+    animation:
+        float 7s infinite ease-in-out;
+
+    pointer-events: none;
+}
+
+@keyframes float {
+
+    0% {
+        transform:
+            translateY(100vh)
+            scale(.6);
+
+        opacity: 0;
+    }
+
+    20% {
+        opacity: .5;
+    }
+
+    80% {
+        opacity: .5;
+    }
+
+    100% {
+        transform:
+            translateY(-20vh)
+            scale(1.2);
+
+        opacity: 0;
+    }
+}
+
+
+/* LETTER */
+
+.letter {
+
+    width:
+        min(
+            750px,
+            92vw
+        );
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .045
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            79,
+            163,
+            .35
+        );
+
+    border-radius:
+        25px;
+
+    padding:
+        55px
+        45px;
+
+    box-shadow:
+        0 0 70px
+        rgba(
+            255,
+            20,
+            147,
+            .15
+        );
+
+    backdrop-filter:
+        blur(12px);
+}
+
+
+/* TITLE */
+
+.title {
+
+    text-align: center;
+
+    font-size:
+        clamp(
+            30px,
+            5vw,
+            48px
+        );
+
+    margin-bottom: 10px;
+
+    text-shadow:
+        0 0 15px
+        #ff4fa3;
+}
+
+
+/* SUBTITLE */
+
+.subtitle {
+
+    text-align: center;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .55
+        );
+
+    font-style:
+        italic;
+
+    margin-bottom: 45px;
+}
+
+
+/* LETTER TEXT */
+
+#letterText {
+
+    font-size: 18px;
+
+    line-height: 2;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            .85
+        );
+
+    white-space: pre-line;
+
+    min-height: 350px;
+}
+
+
+/* CURSOR */
+
+.cursor {
+
+    display:
+        inline-block;
+
+    width: 2px;
+
+    height: 20px;
+
+    background:
+        #ff4fa3;
+
+    animation:
+        blink .8s infinite;
+
+    vertical-align:
+        middle;
+}
+
+@keyframes blink {
+
+    50% {
+        opacity: 0;
+    }
+}
+
+
+/* SIGNATURE */
+
+.signature {
+
+    text-align:
+        right;
+
+    margin-top: 45px;
+
+    font-size: 20px;
+
+    color:
+        #ff8ac5;
+}
+
+
+/* BACK BUTTON */
+
+.back {
+
+    display:
+        block;
+
+    width:
+        fit-content;
+
+    margin:
+        40px
+        auto
+        0;
+
+    padding:
+        12px
+        25px;
+
+    border-radius:
+        30px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            79,
+            163,
+            .5
+        );
+
+    color: white;
+
+    text-decoration:
+        none;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    transition:
+        .3s;
+}
+
+.back:hover {
+
+    background:
+        rgba(
+            255,
+            79,
+            163,
+            .15
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            255,
+            20,
+            147,
+            .3
+        );
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- FLOATING HEARTS -->
+
+<div class="heart"
+style="left:8%;animation-delay:0s;">
+❤️
+</div>
+
+<div class="heart"
+style="left:25%;animation-delay:2s;">
+♡
+</div>
+
+<div class="heart"
+style="left:45%;animation-delay:4s;">
+❤️
+</div>
+
+<div class="heart"
+style="left:70%;animation-delay:1s;">
+♡
+</div>
+
+<div class="heart"
+style="left:90%;animation-delay:3s;">
+❤️
+</div>
+
+
+<!-- LETTER -->
+
+<div class="letter">
+
+
+    <div class="title">
+
+        For My Princessss ❤️
+
+    </div>
+
+
+    <div class="subtitle">
+
+        Something I wanted you to have forever...
+
+    </div>
+
+
+    <div id="letterText"></div>
+
+
+    <div class="signature">
+
+        — From someone who loves you ❤️
+
+    </div>
+
+
+    <a
+        class="back"
+        href="index.html"
+    >
+
+        ← Back to Our Universe
+
+    </a>
+
+
+</div>
+
+
+<script>
+
+
+const message = `
+
+My Princessss,
+
+I don't even know where to begin because there are so many things I could say about you.
+
+You have become such a beautiful part of my life, and I hope you know just how special you are to me.
+
+Every laugh, every conversation, every little moment and every memory we've made means more to me than I can properly explain.
+
+I made this little universe for you because I wanted to give you something that was more than just a birthday message.
+
+I wanted you to have a little place that was made just for you.
+
+A place filled with our memories, a song that reminds me of you, and a letter that you can come back to whenever you want.
+
+I hope today reminds you of how loved, appreciated and special you are.
+
+Happy Birthday, Princessss.
+
+I hope this year brings you everything your heart deserves.
+
+And I hope I get to be there for many more birthdays, memories, laughs and adventures with you.
+
+❤️
+
+`;
+
+
+const element =
+    document.getElementById(
+        "letterText"
+    );
+
+
+let index = 0;
+
+
+function typeLetter() {
+
+    if (
+        index <
+        message.length
+    ) {
+
+        element.innerHTML +=
+            message.charAt(index);
+
+        index++;
+
+        setTimeout(
+            typeLetter,
+            28
+        );
+
+    }
+    else {
+
+        element.innerHTML +=
+            '<span class="cursor"></span>';
+
+    }
+
+}
+
+
+setTimeout(
+    typeLetter,
+    1200
+);
+
+
+</script>
+
+
+</body>
+
+</html>
