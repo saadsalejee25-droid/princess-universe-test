@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princessss Universe 🌌</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #title {
+            position: fixed;
+            top: 35px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px white;
+            pointer-events: none;
+        }
+
+        #instruction {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="title">PRINCESSS' UNIVERSE</div>
+
+<div id="instruction">
+    Drag to explore • Scroll to zoom
+</div>
+
+<script type="module">
+
+import * as THREE from
+'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+import { OrbitControls } from
+'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
+
+// -------------------------
+// SCENE
+// -------------------------
+
+const scene = new THREE.Scene();
+
+scene.background = new THREE.Color(0x000000);
+
+
+// -------------------------
+// CAMERA
+// -------------------------
+
+const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    2000
+);
+
+camera.position.set(0, 30, 80);
+
+
+// -------------------------
+// RENDERER
+// -------------------------
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
+
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 2)
+);
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+document.body.appendChild(renderer.domElement);
+
+
+// -------------------------
+// CONTROLS
+// -------------------------
+
+const controls = new OrbitControls(
+    camera,
+    renderer.domElement
+);
+
+controls.enableDamping = true;
+
+controls.dampingFactor = 0.05;
+
+controls.minDistance = 25;
+
+controls.maxDistance = 300;
+
+
+// -------------------------
+// STARS
+// -------------------------
+
+const starGeometry = new THREE.BufferGeometry();
+
+const starCount = 6000;
+
+const starPositions = new Float32Array(
+    starCount * 3
+);
+
+for (let i = 0; i < starCount * 3; i++) {
+
+    starPositions[i] =
+        (Math.random() - 0.5) * 1000;
+
+}
+
+starGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(
+        starPositions,
+        3
+    )
+);
+
+const starMaterial = new THREE.PointsMaterial({
+
+    color: 0xffffff,
+
+    size: 1.2,
+
+    sizeAttenuation: true
+
+});
+
+const stars = new THREE.Points(
+    starGeometry,
+    starMaterial
+);
+
+scene.add(stars);
+
+
+// -------------------------
+// LIGHT
+// -------------------------
+
+const ambientLight =
+    new THREE.AmbientLight(
+        0xffffff,
+        0.5
+    );
+
+scene.add(ambientLight);
+
+
+// -------------------------
+// ANIMATION
+// -------------------------
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    stars.rotation.y += 0.00015;
+
+    controls.update();
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+
+// -------------------------
+// RESIZE
+// -------------------------
+
+window.addEventListener(
+    'resize',
+    () => {
+
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+    }
+);
+
+animate();
+
+</script>
+
+</body>
+</html>
