@@ -1535,6 +1535,7 @@ canvas.addEventListener("click", function(e) {
             else if (planet.name === "MY LETTER") {
 
                 document.getElementById("letterPopup").style.display = "flex";
+                startLetterTyping();
 
             }
 
@@ -2308,42 +2309,73 @@ canvas.addEventListener(
 
         <div class="letterContent">
 
-            <p>To my princess,</p>
-
-            <p>
-                I don't think words will ever be enough
-                to explain how much you mean to me.
-            </p>
-
-            <p>
-                You have become such a beautiful part
-                of my life, and every memory with you
-                is something I want to keep forever.
-            </p>
-
-            <p>
-                Thank you for being you.
-                Thank you for every smile, every laugh,
-                and every little moment.
-            </p>
-
-            <p>
-                I hope this little universe reminds you
-                just how special you are to me.
-            </p>
-
-            <p>
-                Happy Birthday, Princessss. ❤️
-            </p>
-
-            <p class="letterSignature">
-                Forever yours ❤️
-            </p>
-
+            <p id="typedLetter"></p>
         </div>
 
     </div>
 
 </div>
+    <script>
+
+const letterText = `To my princess,
+
+Happy Birthday to the most beautiful person I could ever ask to have in my life.
+
+I honestly don't know where to begin, because there are so many things I want to say to you. Sometimes I wish I could put everything I feel into words, but no matter how hard I try, words never seem to be enough.
+
+You mean so much more to me than you probably realise. It's not only the big moments that I love. It's the little things too. Your smile. Your laugh. The way you talk. The way you make ordinary moments feel special without even trying.
+
+Every memory we've made together is something I hold close to my heart. Even the moments that might seem small or insignificant are moments that I would never want to forget.
+
+I hope you always know how special you are. I hope you know that you deserve to be loved, appreciated, respected and celebrated—not just today, but every single day.
+
+I made this little universe for you because I wanted to give you something different. Something you could explore. Something that would remind you of us and of all the things I love about you.
+
+And if you ever doubt how much you mean to me, come back here and remember that somewhere in this little universe, there is a whole world that I made just for you.
+
+Thank you for being part of my life.
+
+Thank you for every smile, every laugh, every conversation, every memory and every little moment that has brought us closer.
+
+I hope this birthday is as beautiful and special as you are.
+
+Happy Birthday, Princessss. ❤️
+
+I love you. ❤️`;
+
+let letterTypingIndex = 0;
+let letterTypingTimer = null;
+
+function startLetterTyping(){
+
+    const letterElement =
+        document.getElementById("typedLetter");
+
+    if(!letterElement) return;
+
+    clearInterval(letterTypingTimer);
+
+    letterElement.textContent = "";
+
+    letterTypingIndex = 0;
+
+    letterTypingTimer = setInterval(function(){
+
+        letterElement.textContent +=
+            letterText.charAt(letterTypingIndex);
+
+        letterTypingIndex++;
+
+        if(letterTypingIndex >= letterText.length){
+
+            clearInterval(letterTypingTimer);
+
+        }
+
+    }, 28);
+
+}
+
+</script>
 </body>
 </html>
