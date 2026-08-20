@@ -549,6 +549,159 @@ body:not(.universeEntering) canvas {
         rgba(255,100,220,.9);
 
 }
+    /* =========================
+   10 THINGS I LOVE
+========================= */
+
+#loveList {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 5000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(70,0,55,.95),
+            rgba(0,0,0,.98)
+        );
+
+    backdrop-filter: blur(12px);
+
+}
+
+.loveBox {
+
+    width: 85%;
+
+    max-width: 600px;
+
+    text-align: center;
+
+    color: white;
+
+    animation:
+        loveAppear
+        1s ease;
+
+}
+
+@keyframes loveAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(30px)
+            scale(.95);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+.loveTitle {
+
+    font-size: 15px;
+
+    letter-spacing: 4px;
+
+    color:
+        rgba(255,255,255,.6);
+
+    margin-bottom: 40px;
+
+}
+
+#loveNumber {
+
+    font-size: 80px;
+
+    font-weight: bold;
+
+    color:
+        #ff73b7;
+
+    text-shadow:
+        0 0 30px
+        rgba(255,70,180,.8);
+
+}
+
+#loveText {
+
+    margin-top: 20px;
+
+    font-size: 32px;
+
+    line-height: 1.3;
+
+    min-height: 90px;
+
+    text-shadow:
+        0 0 20px
+        rgba(255,255,255,.25);
+
+}
+
+#loveNext {
+
+    margin-top: 45px;
+
+    padding:
+        14px 30px;
+
+    border:
+        1px solid
+        rgba(255,120,190,.7);
+
+    border-radius: 30px;
+
+    background:
+        rgba(255,50,160,.15);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+    transition:
+        transform .3s,
+        box-shadow .3s;
+
+}
+
+#loveNext:hover {
+
+    transform:
+        scale(1.08);
+
+    box-shadow:
+        0 0 30px
+        rgba(255,70,180,.6);
+
+}
 </style>
 </head>
 
@@ -1304,15 +1457,79 @@ if(secretPlanet){
     "click",
     function(){
 
-        alert(
-            "🔐 THE SECRET 🔐\n\n" +
-            "You really found me, Princessss... 👀❤️\n\n" +
-            "Okay... you earned this."
-        );
+        openLoveList();
 
     }
 );
 
+             const loveThings = [
+
+    "Your smile. ❤️",
+
+    "The way you laugh. 😂❤️",
+
+    "The way you make ordinary moments special.",
+
+    "Your beautiful personality.",
+
+    "The way you care about the people you love.",
+
+    "Your eyes. I could honestly get lost in them.",
+
+    "The little things you do that you don't even realize I notice.",
+
+    "The way you make me feel when I'm with you.",
+
+    "Every memory we've created together.",
+
+    "Simply... you. ❤️"
+
+];
+
+
+let loveIndex = 0;
+
+
+function openLoveList(){
+
+    const loveList =
+        document.getElementById(
+            "loveList"
+        );
+
+    loveList.style.display =
+        "flex";
+
+}
+
+
+document.getElementById(
+    "loveNext"
+).addEventListener(
+    "click",
+    function(){
+
+        loveIndex++;
+
+        if(loveIndex >= loveThings.length){
+
+            loveIndex = 0;
+
+        }
+
+        document.getElementById(
+            "loveNumber"
+        ).textContent =
+            String(loveIndex + 1)
+            .padStart(2,"0");
+
+        document.getElementById(
+            "loveText"
+        ).textContent =
+            loveThings[loveIndex];
+
+    }
+);       
                 }, 400);
             }
 
@@ -1345,5 +1562,26 @@ canvas.addEventListener(
 );
 </script>
 
+    <div id="loveList">
+
+    <div class="loveBox">
+
+        <div class="loveTitle">
+            10 THINGS I LOVE ABOUT YOU ❤️
+        </div>
+
+        <div id="loveNumber">01</div>
+
+        <div id="loveText">
+            Your smile.
+        </div>
+
+        <button id="loveNext">
+            NEXT ❤️
+        </button>
+
+    </div>
+
+</div>
 </body>
 </html>
