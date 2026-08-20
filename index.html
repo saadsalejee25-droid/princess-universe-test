@@ -702,6 +702,193 @@ transform:
         rgba(255,70,180,.6);
 
 }
+    /* =========================
+   LOVE QUESTION
+========================= */
+
+#loveQuestion {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #25001f,
+            #050008 70%
+        );
+
+    color: white;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+}
+
+.loveQuestionContent {
+
+    width: 90%;
+
+    max-width: 600px;
+
+    animation:
+        questionAppear
+        1s ease;
+
+}
+
+@keyframes questionAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.8)
+            translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+    }
+
+}
+
+.questionEmoji {
+
+    font-size: 60px;
+
+    margin-bottom: 20px;
+
+    animation:
+        heartBeat
+        1.5s
+        ease-in-out
+        infinite;
+
+}
+
+@keyframes heartBeat {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+}
+
+.loveQuestionContent h1 {
+
+    font-size: 48px;
+
+    margin: 0;
+
+    text-shadow:
+        0 0 25px
+        rgba(255,80,180,.7);
+
+}
+
+.loveQuestionContent p {
+
+    margin-top: 12px;
+
+    opacity: .6;
+
+    font-size: 16px;
+
+}
+
+.questionButtons {
+
+    position: relative;
+
+    margin-top: 45px;
+
+    min-height: 100px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+}
+
+.questionButtons button {
+
+    border: none;
+
+    border-radius: 40px;
+
+    padding:
+        15px 28px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform .4s ease,
+        opacity .4s ease;
+
+}
+
+#yesLove {
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4fa3,
+            #ff79c6
+        );
+
+    color: white;
+
+    box-shadow:
+        0 0 25px
+        rgba(255,70,170,.5);
+
+}
+
+#noLove {
+
+    background:
+        rgba(255,255,255,.1);
+
+    color: white;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25);
+
+}
 </style>
 </head>
 
@@ -709,6 +896,33 @@ transform:
 
     <!-- BIRTHDAY INTRO -->
 
+    <!-- LOVE QUESTION -->
+
+<div id="loveQuestion">
+
+    <div class="loveQuestionContent">
+
+        <div class="questionEmoji">💗</div>
+
+        <h1>Do you love me?</h1>
+
+        <p>Be honest... 👀</p>
+
+        <div class="questionButtons">
+
+            <button id="yesLove">
+                YES OFC ❤️
+            </button>
+
+            <button id="noLove">
+                NO 😐
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <div id="birthdayIntro">
 
     <div class="introStars"></div>
@@ -1616,5 +1830,101 @@ canvas.addEventListener(
     </div>
 
 </div>
+    <script>
+
+    // DO YOU LOVE ME?
+    
+    const yesLove =
+        document.getElementById("yesLove");
+
+    const noLove =
+        document.getElementById("noLove");
+
+    let noAttempts = 0;
+
+
+    function moveNoButton(){
+
+        noAttempts++;
+
+        yesLove.style.transform =
+            `scale(${1 + noAttempts * 0.12})`;
+
+        const noScale =
+            Math.max(
+                0.25,
+                1 - noAttempts * 0.12
+            );
+
+        noLove.style.transform =
+            `scale(${noScale})`;
+
+        noLove.style.position =
+            "fixed";
+
+        const padding = 30;
+
+        const maxX =
+            window.innerWidth -
+            noLove.offsetWidth -
+            padding;
+
+        const maxY =
+            window.innerHeight -
+            noLove.offsetHeight -
+            padding;
+
+        const randomX =
+            Math.random() *
+            Math.max(maxX, padding);
+
+        const randomY =
+            Math.random() *
+            Math.max(maxY, padding);
+
+        noLove.style.left =
+            `${randomX}px`;
+
+        noLove.style.top =
+            `${randomY}px`;
+    }
+
+
+    noLove.addEventListener(
+        "mouseenter",
+        moveNoButton
+    );
+
+
+    noLove.addEventListener(
+        "touchstart",
+        function(e){
+
+            e.preventDefault();
+
+            moveNoButton();
+
+        }
+    );
+
+
+    yesLove.addEventListener(
+        "click",
+        function(){
+
+            document.getElementById(
+                "loveQuestion"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "birthdayIntro"
+            ).style.display =
+                "flex";
+
+        }
+    );
+
+</script>
 </body>
 </html>
