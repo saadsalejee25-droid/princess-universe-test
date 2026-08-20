@@ -889,6 +889,178 @@ transform:
         rgba(255,255,255,.25);
 
 }
+    /* =========================
+   OUR SONG POPUP
+========================= */
+
+#songPopup {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.75);
+
+    backdrop-filter: blur(10px);
+
+}
+
+.songBox {
+
+    position: relative;
+
+    width: 85%;
+
+    max-width: 420px;
+
+    padding: 40px 25px;
+
+    text-align: center;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(35,10,50,.97),
+            rgba(10,5,20,.97)
+        );
+
+    border:
+        1px solid
+        rgba(180,120,255,.45);
+
+    box-shadow:
+        0 0 50px
+        rgba(150,80,255,.35);
+
+    color: white;
+
+    animation:
+        songPopupAppear
+        .6s ease;
+
+}
+
+@keyframes songPopupAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.8);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+.songIcon {
+
+    font-size: 55px;
+
+    margin-bottom: 15px;
+
+}
+
+.songBox h2 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+    letter-spacing: 4px;
+
+}
+
+.songBox p {
+
+    margin:
+        12px 0 0;
+
+    font-size: 18px;
+
+}
+
+.songArtist {
+
+    opacity: .6;
+
+    font-size: 14px !important;
+
+}
+
+#playSong {
+
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding:
+        14px 28px;
+
+    border-radius: 30px;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b5cff,
+            #c77dff
+        );
+
+    color: white;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 0 25px
+        rgba(150,90,255,.5);
+
+}
+
+#closeSong {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 18px;
+
+    border: none;
+
+    background: none;
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    opacity: .7;
+
+}
 </style>
 </head>
 
@@ -1199,7 +1371,7 @@ canvas.addEventListener("click", function(e) {
 
             else if (planet.name === "OUR SONG") {
 
-                window.location.href = "song.html";
+               document.getElementById("songPopup").style.display = "flex";
 
             }
 
@@ -1926,5 +2098,39 @@ canvas.addEventListener(
     );
 
 </script>
+    <!-- OUR SONG POPUP -->
+
+<div id="songPopup">
+
+    <div class="songBox">
+
+        <button
+    id="closeSong"
+    onclick="document.getElementById('songPopup').style.display='none'"
+>
+    ✕
+</button>
+
+        <div class="songIcon">🎵</div>
+
+        <h2>OUR SONG</h2>
+
+        <p>Cinderella</p>
+
+        <p class="songArtist">
+            Mac Miller ft. Ty Dolla $ign
+        </p>
+
+        <a
+            id="playSong"
+            href="https://youtu.be/0fcsGS1dEro"
+            target="_blank"
+        >
+            ▶ PLAY SONG
+        </a>
+
+    </div>
+
+</div>
 </body>
 </html>
