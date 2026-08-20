@@ -1061,6 +1061,163 @@ transform:
     opacity: .7;
 
 }
+    /* =========================
+   MY LETTER POPUP
+========================= */
+
+#letterPopup {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9500;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,.82);
+
+    backdrop-filter: blur(12px);
+
+}
+
+.letterBox {
+
+    position: relative;
+
+    width: 90%;
+
+    max-width: 650px;
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    padding: 45px 35px;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf0,
+            #f8e9d2
+        );
+
+    color: #2b1a18;
+
+    box-shadow:
+        0 0 70px
+        rgba(255,180,210,.3);
+
+    animation:
+        letterAppear
+        .8s ease;
+
+}
+
+@keyframes letterAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(30px)
+            rotate(-2deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            rotate(0);
+
+    }
+
+}
+
+.letterWax {
+
+    text-align: center;
+
+    font-size: 50px;
+
+    margin-bottom: 10px;
+
+}
+
+.letterBox h2 {
+
+    text-align: center;
+
+    font-size: 22px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 30px;
+
+}
+
+.letterContent {
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+
+}
+
+.letterContent p {
+
+    margin-bottom: 20px;
+
+}
+
+.letterSignature {
+
+    text-align: right;
+
+    font-style: italic;
+
+    font-size: 20px;
+
+}
+
+#closeLetter {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 18px;
+
+    border: none;
+
+    background: none;
+
+    color: #2b1a18;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    opacity: .6;
+
+}
 </style>
 </head>
 
@@ -1377,7 +1534,7 @@ canvas.addEventListener("click", function(e) {
 
             else if (planet.name === "MY LETTER") {
 
-                window.location.href = "letter.html";
+                document.getElementById("letterPopup").style.display = "flex";
 
             }
 
@@ -2128,6 +2285,62 @@ canvas.addEventListener(
         >
             ▶ PLAY SONG
         </a>
+
+    </div>
+
+</div>
+    <!-- MY LETTER POPUP -->
+
+<div id="letterPopup">
+
+    <div class="letterBox">
+
+        <button
+    id="closeLetter"
+    onclick="document.getElementById('letterPopup').style.display='none'"
+>
+    ✕
+</button>
+
+        <div class="letterWax">💌</div>
+
+        <h2>MY LETTER TO YOU</h2>
+
+        <div class="letterContent">
+
+            <p>To my princess,</p>
+
+            <p>
+                I don't think words will ever be enough
+                to explain how much you mean to me.
+            </p>
+
+            <p>
+                You have become such a beautiful part
+                of my life, and every memory with you
+                is something I want to keep forever.
+            </p>
+
+            <p>
+                Thank you for being you.
+                Thank you for every smile, every laugh,
+                and every little moment.
+            </p>
+
+            <p>
+                I hope this little universe reminds you
+                just how special you are to me.
+            </p>
+
+            <p>
+                Happy Birthday, Princessss. ❤️
+            </p>
+
+            <p class="letterSignature">
+                Forever yours ❤️
+            </p>
+
+        </div>
 
     </div>
 
