@@ -1509,12 +1509,45 @@ document.getElementById(
     "click",
     function(){
 
+        if(this.textContent === "CLOSE ❤️"){
+
+            document.getElementById(
+                "loveList"
+            ).style.display = "none";
+
+            this.textContent = "NEXT ❤️";
+
+            loveIndex = 0;
+
+            document.getElementById(
+                "loveNumber"
+            ).textContent = "01";
+
+            document.getElementById(
+                "loveText"
+            ).textContent =
+                loveThings[0];
+
+            return;
+        }
+
         loveIndex++;
 
         if(loveIndex >= loveThings.length){
 
-            loveIndex = 0;
+            document.getElementById(
+                "loveText"
+            ).textContent =
+                "And after all of this...\n\n" +
+                "I still choose you. ❤️";
 
+            document.getElementById(
+                "loveNumber"
+            ).textContent = "∞";
+
+            this.textContent = "CLOSE ❤️";
+
+            return;
         }
 
         document.getElementById(
@@ -1529,7 +1562,7 @@ document.getElementById(
             loveThings[loveIndex];
 
     }
-);       
+);
                 }, 400);
             }
 
